@@ -1,0 +1,28 @@
+{
+    "Random Forest": {
+        "Best Parameters": {
+            "max_depth": 20.0,
+            "n_estimators": 420.0
+        },
+        "Cross-validation Accuracy": -0.9509328193671791,
+        "Testing Accuracy": 0.8711283185840708,
+        "Testing Kappa": 0.8569698928659463,
+        "Random Forest f1": 0.8456973325601242,
+        "Random Forest recall": 0.8446239236256714,
+        "Random Forest precision": 0.8503810320960388,
+        "Time consuming": 1488.5391924381256
+    },
+    "SVM": {
+        "Best Parameters": {
+            "C": 11.948988573027576,
+            "gamma": 0.7820090922360937
+        },
+        "Cross-validation Accuracy": -0.9722259698920963,
+        "Testing Accuracy": 0.8683628318584071,
+        "Testing Kappa": 0.8534716310366198,
+        "SVM f1": 0.8459262368235518,
+        "SVM recall": 0.8337088662519073,
+        "SVM precision": 0.8635322501092411,
+        "Time consuming": 6963.004999399185
+    }
+}
