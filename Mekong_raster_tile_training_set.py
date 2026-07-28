@@ -16,6 +16,7 @@ import os
 import numpy as np
 import pandas as pd
 from scipy import stats
+import h5py                                 
 ##############################
 # # Settings
 ##############################
@@ -27,8 +28,8 @@ Nodata = -32768
 # The value -32728 is reserved for the no-data value.
 input_raster = "MKInput_30m_f16.tif"
 
-winSize = 4  # Size of the tiles to be extracted from the rasters
-stride = 4  # Number of pixels to move the window after each extraction
+winSize = 48  # Size of the tiles to be extracted from the rasters
+stride = 1  # Number of pixels to move the window after each extraction
 
 ##############################
 # # Check dimensions of input rasters
@@ -111,12 +112,16 @@ if len(labels) == len(ij_included):
     ij_included['label'] = labels
 else:
     print(f"Mismatch: ij_included has {len(ij_included)} rows, but labels has {len(labels)} labels.")
-##############################
-# # Save output
-##############################
-# Save the image stack to a .npz file
-np.savez(os.path.join(output_folder, output_filename), data=np_image_stack)
 
-# Save the ij_included DataFrame to a CSV file
-ij_included.to_csv(os.path.join(output_folder, output_filename + "_ij_included.csv"), index=False)
-print(f"Process completed. {tile_counter} valid tiles were extracted.")
+##############################
+# # Save output  
+##############################
+h5_path = os.path.join(output_folder, output_filename + ".h5")
+
+with h5py.File(h5_path, "w") as f:
+    f.create_dataset("data",  data=np_image_stack, compression="gzip")
+    f.create_dataset("i",     data=ij_included["i"].to_numpy(), compression="gzip")
+    f.create_dataset("j",     data=ij_included["j"].to_numpy(), compression="gzip")
+    f.create_dataset("label", data=ij_included["label"].to_numpy(), compression="gzip")
+
+print(f"Process completed. {tile_counter} valid tiles were written to {h5_path}")
